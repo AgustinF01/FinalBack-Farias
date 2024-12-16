@@ -37,6 +37,18 @@
 
     <div class="container mt-5">
         <h1 class="text-center mb-4">Bienvenidos</h1>
+
+            <!-- Formulario de filtrado -->
+        <div class="mb-4">
+            <label for="categoryFilter">Filtrar por categoría:</label>
+            <select id="categoryFilter" class="form-control" onchange="loadProducts()">
+                <option value="">Todas las categorías</option>
+                <option value="Figuras">Figuras</option>
+                <option value="Juguetes">Juguetes</option>
+                <option value="Jardin">Jardin</option>
+            </select>
+        </div>
+
         <div class="row" id="product-list">
             <!-- Los productos se cargarán aquí -->
         </div>
@@ -56,6 +68,8 @@
         let currentPage = 1; // Página actual
         let totalPages = 0; // Total de páginas
         let products = []; // Array para almacenar los productos
+        let selectedCategory = ''; // Almacena la categoría seleccionada
+
 
         // Función para crear un carrito
         async function createCart() {
@@ -85,16 +99,20 @@
             }
         }
 
+
         // Función para cargar productos
         async function loadProducts(page = 1) {
+            selectedCategory = document.getElementById('categoryFilter').value; // Obtener la categoría seleccionada
+
             // Verificar si ya existe un carrito
             if (!localStorage.getItem('cartId')) {
                 await createCart(); // Crear un nuevo carrito si no existe
             }
 
             try {
-                const response = await fetch(`/api/products?page=${page}&limit=${productsPerPage}`);
+                const response = await fetch(`/api/products?page=${page}&limit=${productsPerPage}&category=${selectedCategory}`);
                 const data = await response.json();
+                console.log('Productos filtrados:', data.products); // Verifica qué productos se están devolviendo
                 totalPages = data.totalPages; // Guardar el total de páginas
                 displayProducts(data.products);
                 setupPagination();
@@ -116,6 +134,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">${product.name}</h5>
                                 <p class="card-text">${product.description}</p>
+                                <p class="card-text">${product.category}</p>
                                 <p class="card-text"><strong>Precio: $${product.price}</strong></p>
                                 <button class="btn btn-primary" onclick="addToCart('${product._id}')">Agregar al carrito</button>
                             </div>

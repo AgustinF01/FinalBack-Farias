@@ -71,6 +71,7 @@
                                 <img src="${item.product.image}" class="card-img-top" alt="${item.product.name}">
                                 <div class="card-body">
                                     <h5 class="card-title">${item.product.name}</h5>
+                                    <p class="card-text">Categoria: ${item.product.category}</p>
                                     <p class="card-text">Cantidad: ${item.quantity}</p>
                                     <p class="card-text"><strong>Precio: $${(item.product.price * item.quantity).toFixed(2)}</strong></p>
                                 </div>

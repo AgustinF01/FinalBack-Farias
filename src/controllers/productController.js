@@ -20,10 +20,15 @@ const createProduct = async (productData) => {
   }
 };
 
-const getProducts = async (page = 1, limit = 10) => {
+const getProducts = async (page = 1, limit = 10, category = '') => {
   const skip = (page - 1) * limit; // Calcular cuántos productos saltar
-  const products = await Product.find().skip(skip).limit(limit);
-  const totalProducts = await Product.countDocuments(); // Contar el total de productos
+  const query = category ? { category: category } : {}; // Crear un objeto de consulta si hay categoría
+
+  console.log('Consulta de productos:', query); // Para depuración
+
+  const products = await Product.find(query).skip(skip).limit(limit);
+  const totalProducts = await Product.countDocuments(query); // Contar el total de productos
+
   return {
     products,
     totalPages: Math.ceil(totalProducts / limit), // Calcular el total de páginas
