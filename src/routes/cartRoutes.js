@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createCart, addProductToCart, getCart } = require('../controllers/cartController');
+const { createCart, addProductToCart, getCart, removeProductFromCart } = require('../controllers/cartController');
 
 // Ruta para crear un nuevo carrito
 router.post('/cart', async (req, res) => {
@@ -36,6 +36,19 @@ router.get('/cart/:cartId', async (req, res) => {
     res.json(cart);
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener carrito' });
+  }
+});
+
+// Ruta para eliminar un producto del carrito
+router.delete('/cart/:cartId/products/:productId', async (req, res) => {
+  try {
+    const cartId = req.params.cartId;
+    const productId = req.params.productId;
+    const cart = await removeProductFromCart(cartId, productId);
+    res.json(cart);
+  } catch (err) {
+    console.error('Error al eliminar producto del carrito:', err);
+    res.status(500).json({ message: 'Error al eliminar producto del carrito' });
   }
 });
 

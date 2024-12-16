@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
 
@@ -50,4 +51,36 @@ const getCart = async (cartId) => {
   }
 };
 
-module.exports = { createCart, addProductToCart, getCart };
+// Función para eliminar un producto del carrito
+const removeProductFromCart = async (cartId, productId) => {
+  try {
+    const cart = await Cart.findById(cartId);
+    if (!cart) {
+      throw new Error('Carrito no encontrado');
+    }
+
+    // Convertir productId a un ObjectId para la comparación
+    const productObjectId = new mongoose.Types.ObjectId(productId); // Usa 'new' aquí
+    
+    const productIndex = cart.products.findIndex(item => item.product._id.equals(productObjectId));
+    if (productIndex === -1) {
+      throw new Error('Producto no encontrado en el carrito');
+    }
+
+    // Si hay más de uno, decrementa la cantidad
+    if (cart.products[productIndex].quantity > 1) {
+      cart.products[productIndex].quantity -= 1;
+    } else {
+      // Si es uno, elimina el producto del carrito
+      cart.products.splice(productIndex, 1);
+    }
+
+    await cart.save();
+    return cart;
+  } catch (err) {
+    console.error('Error al eliminar producto del carrito:', err);
+    throw err; // Lanza el error para manejarlo en la ruta
+  }
+};
+
+module.exports = { createCart, addProductToCart, getCart, removeProductFromCart };

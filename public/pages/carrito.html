@@ -42,6 +42,20 @@
         </div>
     </div>
 
+    <div id="toast-container" aria-live="polite" aria-atomic="true" style="position: fixed; top: 20px; right: 20px; z-index: 1050;">
+        <div class="toast" id="product-toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+            <div class="toast-header">
+                <strong class="mr-auto">Notificación</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                El producto se ha agregado al carrito.
+            </div>
+        </div>
+    </div>
+
     <footer class="footer text-center">
         <div class="container">
             <p>&copy; 2024 Mobius 3D. Todos los derechos reservados.</p>
@@ -58,12 +72,13 @@
                 document.getElementById('cart-items').innerHTML = '<p>No hay productos en el carrito.</p>';
                 return;
             }
-
+    
             try {
                 const response = await fetch(`/api/cart/${cartId}`);
                 const cart = await response.json();
                 const cartItems = document.getElementById('cart-items');
-
+                cartItems.innerHTML = ''; // Limpiar el contenido anterior
+    
                 cart.products.forEach(item => {
                     const productCard = `
                         <div class="col-md-4 mb-4">
@@ -74,6 +89,7 @@
                                     <p class="card-text">Categoria: ${item.product.category}</p>
                                     <p class="card-text">Cantidad: ${item.quantity}</p>
                                     <p class="card-text"><strong>Precio: $${(item.product.price * item.quantity).toFixed(2)}</strong></p>
+                                    <button class="btn btn-danger" onclick="removeFromCart('${item.product._id}')">Eliminar del carrito</button>
                                 </div>
                             </div>
                         </div>
@@ -82,11 +98,35 @@
                 });
             } catch (error) {
                 console.error('Error al cargar el carrito:', error);
-                document.getElementById('cart-items').innerHTML = '<p>Error al cargar el carrito.</p>';
+            }
+        }
+    
+        async function removeFromCart(productId) {
+            try {
+                const cartId = localStorage.getItem('cartId');
+                const response = await fetch(`/api/cart/${cartId}/products/${productId}`, { method: 'DELETE' });
+                const cart = await response.json();
+                console.log(`Producto ${productId} eliminado del carrito`, cart);
+                
+                loadCart(); // Cargar el carrito nuevamente para reflejar los cambios
+
+                // Mostrar el toast
+                showToast('El producto se ha eliminado del carrito.');
+            } catch (error) {
+                console.error('Error al eliminar producto del carrito:', error);
             }
         }
 
-        document.addEventListener('DOMContentLoaded', loadCart);
+        function showToast(message) {
+            const toastBody = document.querySelector('#product-toast .toast-body');
+            toastBody.innerText = message; // Establecer el mensaje del toast
+
+            const toastElement = new bootstrap.Toast(document.getElementById('product-toast'));
+            toastElement.show(); // Mostrar el toast
+        }
+    
+        // Cargar el carrito al iniciar la página
+        window.onload = loadCart;
     </script>
 </body>
 </html>
