@@ -5,7 +5,7 @@ const cartRoutes = require('./src/routes/cartRoutes');
 const path = require('path');
 
 const app = express();
-app.use(express.json()); // Middleware para parsear JSON
+app.use(express.json()); 
 
 // Servir archivos estáticos desde la carpeta 'public'
 app.use(express.static(path.join(__dirname, 'public')));

@@ -9,7 +9,7 @@ const createCart = async () => {
     return cart;
   } catch (err) {
     console.error('Error al crear carrito:', err);
-    throw err; // Lanza el error para manejarlo en la ruta
+    throw err; 
   }
 };
 
@@ -28,16 +28,16 @@ const addProductToCart = async (cartId, productId) => {
     // Verificar si el producto ya está en el carrito
     const existingProduct = cart.products.find(item => item.product.toString() === productId);
     if (existingProduct) {
-      existingProduct.quantity += 1; // Incrementar la cantidad si ya existe
+      existingProduct.quantity += 1; 
     } else {
-      cart.products.push({ product: productId, quantity: 1 }); // Agregar nuevo producto
+      cart.products.push({ product: productId, quantity: 1 }); 
     }
 
     await cart.save();
-    return cart; // Devuelve el carrito actualizado
+    return cart; 
   } catch (err) {
     console.error('Error al agregar producto al carrito:', err);
-    throw err; // Lanza el error para manejarlo en la ruta
+    throw err; 
   }
 };
 
@@ -47,7 +47,7 @@ const getCart = async (cartId) => {
     return cart;
   } catch (err) {
     console.error('Error al obtener carrito:', err);
-    throw err; // Lanza el error para manejarlo en la ruta
+    throw err; 
   }
 };
 
@@ -60,18 +60,18 @@ const removeProductFromCart = async (cartId, productId) => {
     }
 
     // Convertir productId a un ObjectId para la comparación
-    const productObjectId = new mongoose.Types.ObjectId(productId); // Usa 'new' aquí
+    const productObjectId = new mongoose.Types.ObjectId(productId);
     
     const productIndex = cart.products.findIndex(item => item.product._id.equals(productObjectId));
     if (productIndex === -1) {
       throw new Error('Producto no encontrado en el carrito');
     }
 
-    // Si hay más de uno, decrementa la cantidad
+    
     if (cart.products[productIndex].quantity > 1) {
       cart.products[productIndex].quantity -= 1;
     } else {
-      // Si es uno, elimina el producto del carrito
+      
       cart.products.splice(productIndex, 1);
     }
 
@@ -79,7 +79,7 @@ const removeProductFromCart = async (cartId, productId) => {
     return cart;
   } catch (err) {
     console.error('Error al eliminar producto del carrito:', err);
-    throw err; // Lanza el error para manejarlo en la ruta
+    throw err; 
   }
 };
 

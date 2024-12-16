@@ -1,0 +1,132 @@
+[{
+  "_id": {
+    "$oid": "67600fb15064e44bd502e4ab"
+  },
+  "name": "Pikachu",
+  "price": 30,
+  "description": "Pikachu de 15CM hecho en resina",
+  "image": "https://via.placeholder.com/300",
+  "category": "Figuras",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67600fee5064e44bd502e4ad"
+  },
+  "name": "Maceta 20CM",
+  "price": 20,
+  "description": "Maceta 20CM hecha en resina",
+  "image": "https://via.placeholder.com/300",
+  "category": "Jardin",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "676010465064e44bd502e4af"
+  },
+  "name": "Maceta 35CM",
+  "price": 30,
+  "description": "Maceta 35CM hecha en resina",
+  "image": "https://via.placeholder.com/300",
+  "category": "Jardin",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6760114b5064e44bd502e4b2"
+  },
+  "name": "Barco de juguete",
+  "price": 25,
+  "description": "Pequeño barco de juguete 15CM",
+  "image": "https://via.placeholder.com/300",
+  "category": "Juguetes",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "676027acad31aaaf52cd6da1"
+  },
+  "name": "Flores artificiales",
+  "price": 40,
+  "description": "Ramo de flores de plastico",
+  "image": "https://via.placeholder.com/300",
+  "category": "Jardin",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "676027d7ad31aaaf52cd6da3"
+  },
+  "name": "Figura de serie 01",
+  "price": 140,
+  "description": "Figura 25CM de alguna serie",
+  "image": "https://via.placeholder.com/300",
+  "category": "Figuras",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "676027e3ad31aaaf52cd6da5"
+  },
+  "name": "Figura de serie 02A",
+  "price": 150,
+  "description": "Figura 25CM de alguna serie",
+  "image": "https://via.placeholder.com/300",
+  "category": "Figuras",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "676027fdad31aaaf52cd6da7"
+  },
+  "name": "Figura de serie 03B",
+  "price": 150,
+  "description": "Figura 25CM de alguna serie",
+  "image": "https://via.placeholder.com/300",
+  "category": "Figuras",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67602806ad31aaaf52cd6da9"
+  },
+  "name": "Robot movil",
+  "price": 150,
+  "description": "Robot de juguete con partes moviles",
+  "image": "https://via.placeholder.com/300",
+  "category": "Juguetes",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6760280bad31aaaf52cd6dab"
+  },
+  "name": "Figura de serie 15L",
+  "price": 150,
+  "description": "Figura 25CM de alguna serie",
+  "image": "https://via.placeholder.com/300",
+  "category": "Figuras",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67602814ad31aaaf52cd6dad"
+  },
+  "name": "Figura de serie 29M",
+  "price": 150,
+  "description": "Figura 25CM de alguna serie",
+  "image": "https://via.placeholder.com/300",
+  "category": "Figuras",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "676075402197e41224c3bab1"
+  },
+  "name": "Macetero largo 20x50",
+  "price": 50,
+  "description": "Macetero largo de 20x50 verde",
+  "image": "https://via.placeholder.com/300",
+  "category": "Jardin",
+  "__v": 0
+}]

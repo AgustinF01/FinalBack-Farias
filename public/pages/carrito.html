@@ -77,7 +77,7 @@
                 const response = await fetch(`/api/cart/${cartId}`);
                 const cart = await response.json();
                 const cartItems = document.getElementById('cart-items');
-                cartItems.innerHTML = ''; // Limpiar el contenido anterior
+                cartItems.innerHTML = '';
     
                 cart.products.forEach(item => {
                     const productCard = `
@@ -108,9 +108,9 @@
                 const cart = await response.json();
                 console.log(`Producto ${productId} eliminado del carrito`, cart);
                 
-                loadCart(); // Cargar el carrito nuevamente para reflejar los cambios
+                loadCart(); 
 
-                // Mostrar el toast
+                
                 showToast('El producto se ha eliminado del carrito.');
             } catch (error) {
                 console.error('Error al eliminar producto del carrito:', error);
@@ -119,13 +119,13 @@
 
         function showToast(message) {
             const toastBody = document.querySelector('#product-toast .toast-body');
-            toastBody.innerText = message; // Establecer el mensaje del toast
+            toastBody.innerText = message; 
 
             const toastElement = new bootstrap.Toast(document.getElementById('product-toast'));
-            toastElement.show(); // Mostrar el toast
+            toastElement.show(); 
         }
     
-        // Cargar el carrito al iniciar la página
+        
         window.onload = loadCart;
     </script>
 </body>

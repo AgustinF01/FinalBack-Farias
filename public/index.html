@@ -83,11 +83,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        const productsPerPage = 10; // Número de productos por página
-        let currentPage = 1; // Página actual
-        let totalPages = 0; // Total de páginas
-        let products = []; // Array para almacenar los productos
-        let selectedCategory = ''; // Almacena la categoría seleccionada
+        const productsPerPage = 10; 
+        let currentPage = 1; 
+        let totalPages = 0; 
+        let products = []; 
+        let selectedCategory = ''; 
 
 
         // Función para crear un carrito
@@ -114,7 +114,7 @@
                 const cart = await response.json();
                 console.log(`Producto ${productId} agregado al carrito`, cart);
                 
-                // Mostrar el toast
+                
                 showToast('El producto se ha agregado al carrito.');
             } catch (error) {
                 console.error('Error al agregar producto al carrito:', error);
@@ -123,16 +123,16 @@
 
         function showToast(message) {
             const toastBody = document.querySelector('#product-toast .toast-body');
-            toastBody.innerText = message; // Establecer el mensaje del toast
+            toastBody.innerText = message; 
 
             const toastElement = new bootstrap.Toast(document.getElementById('product-toast'));
-            toastElement.show(); // Mostrar el toast
+            toastElement.show(); 
         }
 
 
         // Función para cargar productos
         async function loadProducts(page = 1) {
-            selectedCategory = document.getElementById('categoryFilter').value; // Obtener la categoría seleccionada
+            selectedCategory = document.getElementById('categoryFilter').value; 
 
             // Verificar si ya existe un carrito
             if (!localStorage.getItem('cartId')) {
@@ -142,8 +142,8 @@
             try {
                 const response = await fetch(`/api/products?page=${page}&limit=${productsPerPage}&category=${selectedCategory}`);
                 const data = await response.json();
-                console.log('Productos filtrados:', data.products); // Verifica qué productos se están devolviendo
-                totalPages = data.totalPages; // Guardar el total de páginas
+                console.log('Productos filtrados:', data.products); 
+                totalPages = data.totalPages; 
                 displayProducts(data.products);
                 setupPagination();
             } catch (error) {
@@ -154,7 +154,7 @@
         // Función para mostrar productos en la página
         function displayProducts(products) {
             const productList = document.getElementById('product-list');
-            productList.innerHTML = ''; // Limpiar la lista de productos
+            productList.innerHTML = ''; 
 
             products.forEach(product => {
                 const productCard = `
@@ -178,7 +178,7 @@
         // Función para configurar la paginación
         function setupPagination() {
             const pagination = document.getElementById('pagination');
-            pagination.innerHTML = ''; // Limpiar la paginación
+            pagination.innerHTML = '';
 
             for (let i = 1; i <= totalPages; i++) {
                 const pageButton = document.createElement('button');
@@ -186,13 +186,13 @@
                 pageButton.className = 'btn btn-secondary mx-1';
                 pageButton.onclick = () => {
                     currentPage = i;
-                    loadProducts(currentPage); // Cargar productos de la página seleccionada
+                    loadProducts(currentPage); 
                 };
                 pagination.appendChild(pageButton);
             }
         }
 
-        // Cargar productos al iniciar la página
+        
         loadProducts(currentPage);
     </script>
 </body>
