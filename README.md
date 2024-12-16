@@ -14,6 +14,22 @@ La aplicación tiene rutas definidas para manejar las operaciones relacionadas c
 - Los productos se definen en un modelo de Mongoose (Product.js) que incluye campos como nombre, precio, descripción, imagen y categoría.
 Hay una ruta para obtener productos (GET /api/products) que permite paginación y filtrado por categoría, y otra ruta para crear nuevos productos (POST /api/products).
 
+La carga para los nuevos productos debe hacerse a traves de Postman y en modo raw siguiendo la siguiente estructura:
+
+{
+
+  "name": "Nombre del Producto",
+  
+  "price": 100,
+  
+  "description": "Descripción del producto",
+  
+  "image": "URL de la imagen",
+  
+  "category": "Categoría del producto"
+  
+}
+
 **Gestión del Carrito:**
 
 - El carrito de compras se gestiona a través de (Cart.js), que permite almacenar productos y sus cantidades. Se pueden crear carritos (POST /api/cart), agregar productos a un carrito (POST /api/cart/:cartId/products/:productId), obtener el contenido del carrito (GET /api/cart/:cartId), y eliminar productos del carrito (DELETE /api/cart/:cartId/products/:productId).
