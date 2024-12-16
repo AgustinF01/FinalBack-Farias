@@ -40,79 +40,111 @@
         <div class="row" id="product-list">
             <!-- Los productos se cargarán aquí -->
         </div>
+        <div class="pagination justify-content-center mt-4" id="pagination">
+            <!-- Los botones de paginación se cargarán aquí -->
+        </div>
     </div>
 
     <footer class="footer text-center">
         <div class="container">
-            <p>&copy; 2024 Mobius 3D. Todos los derechos reservados.</p>
+            <p>&copy; 2024 Mobius  3D. Todos los derechos reservados.</p>
         </div>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Función para cargar productos
-        async function loadProducts() {
+        const productsPerPage = 10; // Número de productos por página
+        let currentPage = 1; // Página actual
+        let totalPages = 0; // Total de páginas
+        let products = []; // Array para almacenar los productos
+
+        // Función para crear un carrito
+        async function createCart() {
             try {
-                const response = await fetch('/api/products');
-                const products = await response.json();
-                const productList = document.getElementById('product-list');
-    
-                products.forEach(product => {
-                    const productCard = `
-                        <div class="col-md-4 mb-4">
-                            <div class="card product-card">
-                                <img src="${product.image}" class="card-img-top" alt="${ product.name}">
-                                <div class="card-body">
-                                    <h5 class="card-title">${product.name}</h5>
-                                    <p class="card-text">${product.description}</p>
-                                    <p class="card-text"><strong>Precio: $${product.price.toFixed(2)}</strong></p>
-                                    <button class="btn btn-custom" onclick="addToCart('${product._id}')">Agregar al Carrito</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    productList.innerHTML += productCard;
-                });
+                const response = await fetch('/api/cart', { method: 'POST' });
+                const cart = await response.json();
+                localStorage.setItem('cartId', cart._id); // Guardar el ID del carrito en el almacenamiento local
+            } catch (error) {
+                console.error('Error al crear el carrito:', error);
+            }
+        }
+
+        // Función para agregar productos al carrito
+        async function addToCart(productId) {
+            // Verificar si ya existe un carrito
+            if (!localStorage.getItem('cartId')) {
+                await createCart(); // Crear un nuevo carrito si no existe
+            }
+
+            try {
+                const cartId = localStorage.getItem('cartId');
+                const response = await fetch(`/api/cart/${cartId}/products/${productId}`, { method: 'POST' });
+                const cart = await response.json();
+                console.log(`Producto ${productId} agregado al carrito`, cart);
+            } catch (error) {
+                console.error('Error al agregar producto al carrito:', error);
+            }
+        }
+
+        // Función para cargar productos
+        async function loadProducts(page = 1) {
+            // Verificar si ya existe un carrito
+            if (!localStorage.getItem('cartId')) {
+                await createCart(); // Crear un nuevo carrito si no existe
+            }
+
+            try {
+                const response = await fetch(`/api/products?page=${page}&limit=${productsPerPage}`);
+                const data = await response.json();
+                totalPages = data.totalPages; // Guardar el total de páginas
+                displayProducts(data.products);
+                setupPagination();
             } catch (error) {
                 console.error('Error al cargar productos:', error);
             }
         }
-    
-        // Función para agregar un producto al carrito
-        async function addToCart(productId) {
-            try {
-                let cartId = localStorage.getItem('cartId'); // Intenta obtener el ID del carrito del almacenamiento local
-    
-                // Si no hay un carrito, crea uno nuevo
-                if (!cartId) {
-                    const createCartResponse = await fetch('/api/cart', {
-                        method: 'POST'
-                    });
-                    const newCart = await createCartResponse.json();
-                    cartId = newCart._id; // Guarda el nuevo ID del carrito
-                    localStorage.setItem('cartId', cartId); // Almacena el ID en el almacenamiento local
-                }
-    
-                // Agrega el producto al carrito
-                const addProductResponse = await fetch(`/api/cart/${cartId}/products/${productId}`, {
-                    method: 'POST'
-                });
-    
-                if (addProductResponse.ok) {
-                    const updatedCart = await addProductResponse.json();
-                    console.log('Producto agregado al carrito:', updatedCart);
-                } else {
-                    console.error('Error al agregar producto al carrito');
-                }
-            } catch (error) {
-                console.error('Error en la función addToCart:', error);
+
+        // Función para mostrar productos en la página
+        function displayProducts(products) {
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = ''; // Limpiar la lista de productos
+
+            products.forEach(product => {
+                const productCard = `
+                    <div class="col-md-4 mb-4">
+                        <div class="card product-card">
+                            <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                            <div class="card-body">
+                                <h5 class="card-title">${product.name}</h5>
+                                <p class="card-text">${product.description}</p>
+                                <p class="card-text"><strong>Precio: $${product.price}</strong></p>
+                                <button class="btn btn-primary" onclick="addToCart('${product._id}')">Agregar al carrito</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productList.innerHTML += productCard;
+            });
+        }
+
+        // Función para configurar la paginación
+        function setupPagination() {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = ''; // Limpiar la paginación
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.innerText = i;
+                pageButton.className = 'btn btn-secondary mx-1';
+                pageButton.onclick = () => {
+                    currentPage = i;
+                    loadProducts(currentPage); // Cargar productos de la página seleccionada
+                };
+                pagination.appendChild(pageButton);
             }
         }
-    
+
         // Cargar productos al iniciar la página
-        window.onload = loadProducts;
+        loadProducts(currentPage);
     </script>
 </body>
 </html>

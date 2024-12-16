@@ -20,13 +20,15 @@ const createProduct = async (productData) => {
   }
 };
 
-const getProducts = async () => {
-  try {
-    const products = await Product.find();
-    return products;
-  } catch (err) {
-    console.error('Error al obtener productos:', err);
-  }
+const getProducts = async (page = 1, limit = 10) => {
+  const skip = (page - 1) * limit; // Calcular cuántos productos saltar
+  const products = await Product.find().skip(skip).limit(limit);
+  const totalProducts = await Product.countDocuments(); // Contar el total de productos
+  return {
+    products,
+    totalPages: Math.ceil(totalProducts / limit), // Calcular el total de páginas
+    currentPage: page
+  };
 };
 
 module.exports = { createProduct, getProducts };
