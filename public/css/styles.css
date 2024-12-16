@@ -1,0 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+::-webkit-scrollbar {
+    background-color: transparent;
+    width: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #663399;
+}
+
+body {
+    background-color: #f8f9fa; 
+}
+.navbar {
+    background-color: #663399;
+}
+.footer {
+    background-color: #0D1A26;
+    color: white;
+    padding: 20px 0;
+}
+.product-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+.product-card:hover {
+    transform: scale(1.05);
+}
+.btn-custom {
+    background-color: #e83e8c; 
+    color: white;
+}
+.btn-custom:hover {
+    background-color: #D90080;
+    color: white; 
+}
