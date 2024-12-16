@@ -41,3 +41,5 @@ mobiusDB
         └products
                 └carts
                 └products
+
+El inicio del sistema seria con "node server.js" a traves de la terminal una ves conectado el servidor y puesto en linea.
